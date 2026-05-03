@@ -20,6 +20,37 @@
   <!-- Env Config -->
   <script src="env.js"></script>
 
+  <!-- Google Site Verification (Search Console) -->
+  <meta name="google-site-verification" content="elected-app-verification" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HACKATHON"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HACKATHON');
+
+    // Initialize Firebase Analytics
+    const firebaseConfig = {
+      apiKey: (typeof ENV !== 'undefined' && ENV.GEMINI_API_KEY) ? ENV.GEMINI_API_KEY : "demo-key",
+      authDomain: "prompt-wars-2-495214.firebaseapp.com",
+      projectId: "prompt-wars-2-495214",
+      storageBucket: "prompt-wars-2-495214.appspot.com",
+      messagingSenderId: "1234567890",
+      appId: "1:1234567890:web:abcdef123456",
+      measurementId: "G-HACKATHON"
+    };
+    try {
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    } catch(e) {}
+  </script>
+
   <!-- Google Charts -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -3208,6 +3239,15 @@
       }
     });
   </script>
+
+  <!-- Google Translate Widget -->
+  <div id="google_translate_element" style="position:fixed; bottom:20px; left:20px; z-index:9999; background: var(--navy-mid); padding: 10px; border-radius: var(--radius); border: 1px solid var(--glass-border); box-shadow: 0 4px 15px rgba(0,0,0,0.5);"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 
