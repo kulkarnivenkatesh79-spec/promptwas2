@@ -1,0 +1,23 @@
+{
+  "name": "prompt-wars",
+  "version": "1.0.0",
+  "description": "ElectED - AI-Powered Election Education Platform",
+  "main": "src/main.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src/**/*.ts",
+    "tsc": "tsc -b"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0",
+    "vitest": "^3.0.5",
+    "jsdom": "^26.0.0"
+  }
+}

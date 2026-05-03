@@ -1,5 +1,9 @@
 env.js
+.env
+.env.local
+dist/
+node_modules/
 scratch/
 .gemini/
 *.log
-node_modules/
+.DS_Store
