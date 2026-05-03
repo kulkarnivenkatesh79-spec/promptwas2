@@ -1,18 +1,22 @@
 {
   "name": "elected-app",
   "version": "1.0.0",
-  "description": "ElectED — AI-Powered Election Education Platform",
+  "description": "ElectED — AI-Powered Election Education Platform using Google Services",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc -b",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "lint": "tsc --noEmit --strict && echo Lint passed"
+    "lint": "tsc --noEmit --strict && echo Lint passed",
+    "typecheck": "tsc --noEmit --strict"
   },
   "devDependencies": {
     "typescript": "~5.7.0",
     "vitest": "~3.0.0",
     "@vitest/coverage-v8": "~3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

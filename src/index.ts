@@ -5,7 +5,29 @@
  */
 
 export { logger } from './utils/logger';
-export { callGemini, getDemoResponse, buildApiUrl, buildRequestBody, extractResponseText } from './services/ai';
+export {
+  createAnnouncement,
+  isValidAccessibleId,
+  generateQuizAriaLabel,
+  getAriaRole,
+  createFocusTrap,
+} from './utils/a11y';
+
+export {
+  callGemini,
+  getDemoResponse,
+  buildApiUrl,
+  buildRequestBody,
+  extractResponseText,
+} from './services/ai';
+
+export {
+  validateQuery,
+  sanitizeInput,
+  buildMapEmbedUrl,
+  buildPollingBoothQuery,
+} from './services/map';
+
 export {
   QUIZ_DATA,
   createInitialState,
