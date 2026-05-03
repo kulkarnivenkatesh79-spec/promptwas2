@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com https://*.youtube.com https://img.youtube.com;" />
   <meta name="description" content="ElectED - Interactive Election Process Education Platform powered by Google Services" />
   <meta name="theme-color" content="#0a0e1a" />
   <title>ElectED — Election Process Education</title>
@@ -29,20 +29,25 @@
       <li><a href="#timeline">Process</a></li>
       <li><a href="#map-section">Booth Finder</a></li>
       <li><a href="#quiz-section">Quiz</a></li>
+      <li><a href="#voice-section">Assistant</a></li>
     </ul>
     <div class="score-badge" id="global-score-badge" style="display:none">
       <span class="material-icons-round">emoji_events</span>
       <span id="global-score-text">0/0</span>
     </div>
-    <div class="theme-toggle" onclick="window.toggleTheme()">
+    <div class="theme-toggle" id="theme-toggle-btn">
       <span class="material-icons-round" id="theme-icon">light_mode</span>
     </div>
   </nav>
 
   <main id="main-content">
+    <!-- HERO -->
     <section id="hero">
       <div class="hero-content">
-        <div class="hero-badge">Powered by Google AI</div>
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Powered by Google Services
+        </div>
         <h1 class="hero-title">Election Process<br>Education</h1>
         <p class="hero-sub">An immersive guide to democracy, timelines, and data powered by Google Services.</p>
         <div class="hero-actions">
@@ -50,8 +55,38 @@
           <a href="#quiz-section" class="btn-ghost">Take Quiz</a>
         </div>
       </div>
+      <div class="scroll-hint">
+        <span>SCROLL</span>
+        <div class="arrow"></div>
+      </div>
     </section>
 
+    <!-- IMPORTANCE -->
+    <section id="importance-section">
+      <div class="section-header">
+        <span class="section-tag">Democracy Foundations</span>
+        <h2 class="section-title">Why Your <em>Vote</em> Matters</h2>
+      </div>
+      <div class="importance-grid">
+        <div class="importance-card">
+          <span class="material-icons-round">how_to_reg</span>
+          <h3>Constitutional Right</h3>
+          <p>Voting is a fundamental right guaranteed by the Constitution, allowing you to choose leaders.</p>
+        </div>
+        <div class="importance-card">
+          <span class="material-icons-round">account_balance</span>
+          <h3>Shape the Future</h3>
+          <p>Every vote influences policy-making, from education to healthcare.</p>
+        </div>
+        <div class="importance-card">
+          <span class="material-icons-round">groups</span>
+          <h3>Collective Power</h3>
+          <p>Elections ensure that the government remains accountable to the people.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
     <section id="stats">
       <div class="stats-grid">
         <div class="stat-item"><span class="stat-number" id="stat1">0</span><div class="stat-label">Phases</div></div>
@@ -61,37 +96,198 @@
       </div>
     </section>
 
+    <!-- TIMELINE -->
     <section id="timeline">
-       <!-- Content removed for brevity in this prompt, will be fully populated in actual file -->
-       <div class="section-header">
-         <span class="section-tag">Step by Step</span>
-         <h2 class="section-title">The <em>Election</em> Process</h2>
-       </div>
-       <div class="timeline-wrapper" id="timeline-container">
-         <!-- Steps will be injected or kept from original -->
-       </div>
-    </section>
-
-    <section id="map-section">
-      <div class="map-container">
-        <input type="text" id="map-search-input" placeholder="Enter your area...">
-        <button id="map-search-btn">Search</button>
-        <iframe id="gmap-frame" style="width:100%; height:400px; border:none;"></iframe>
+      <div class="section-header">
+        <span class="section-tag">Step by Step</span>
+        <h2 class="section-title">The <em>Election</em> Process</h2>
       </div>
-    </section>
-
-    <section id="quiz-section">
-      <div class="quiz-box">
-        <p id="quiz-q"></p>
-        <div id="quiz-opts"></div>
-        <div id="quiz-fb"></div>
-        <div class="quiz-nav">
-          <span id="quiz-score-display"></span>
-          <button id="quiz-next-btn" style="display:none">Next</button>
+      <div class="timeline-wrapper">
+        <div class="timeline-line"></div>
+        <!-- Step 1 -->
+        <div class="timeline-step step-1">
+          <div class="step-card" onclick="this.classList.toggle('expanded')">
+            <div class="step-icon">📋</div>
+            <div class="step-phase">Phase 01</div>
+            <h3 class="step-title">Voter Registration</h3>
+            <p class="step-desc">Citizens enroll on electoral rolls before a set deadline.</p>
+            <div class="step-details">Typically opens 6–12 months before election day. Citizens must be 18+ and provide proof of residence.</div>
+            <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener noreferrer" class="step-link">Register on NVSP</a>
+          </div>
+          <div class="step-dot">01</div>
+          <div class="step-empty"></div>
+        </div>
+        <!-- Step 2 -->
+        <div class="timeline-step step-2">
+          <div class="step-empty"></div>
+          <div class="step-dot">02</div>
+          <div class="step-card" onclick="this.classList.toggle('expanded')">
+            <div class="step-icon">🗳️</div>
+            <div class="step-phase">Phase 02</div>
+            <h3 class="step-title">Candidate Filing</h3>
+            <p class="step-desc">Political parties and independents officially declare candidacy.</p>
+            <div class="step-details">Candidates must meet eligibility criteria (age, citizenship) and file nomination papers.</div>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="timeline-step step-3">
+          <div class="step-card" onclick="this.classList.toggle('expanded')">
+            <div class="step-icon">📢</div>
+            <div class="step-phase">Phase 03</div>
+            <h3 class="step-title">Campaign Period</h3>
+            <p class="step-desc">Candidates actively campaign — rallies, debates, and outreach.</p>
+            <div class="step-details">Spending limits apply, and a "silent period" restricts campaigning 48 hours before voting.</div>
+          </div>
+          <div class="step-dot">03</div>
+          <div class="step-empty"></div>
+        </div>
+        <!-- Step 4 -->
+        <div class="timeline-step step-4">
+          <div class="step-empty"></div>
+          <div class="step-dot">04</div>
+          <div class="step-card" onclick="this.classList.toggle('expanded')">
+            <div class="step-icon">🗳️</div>
+            <div class="step-phase">Phase 04</div>
+            <h3 class="step-title">Voting Day</h3>
+            <p class="step-desc">Registered voters cast ballots at designated polling booths.</p>
+            <div class="step-details">Polls open 7am–6pm. Use ID to vote privately using EVMs.</div>
+          </div>
+        </div>
+        <!-- Step 5 -->
+        <div class="timeline-step step-5">
+          <div class="step-card" onclick="this.classList.toggle('expanded')">
+            <div class="step-icon">🔢</div>
+            <div class="step-phase">Phase 05</div>
+            <h3 class="step-title">Vote Counting</h3>
+            <p class="step-desc">Ballots are counted under strict supervision with party agents present.</p>
+            <div class="step-details">EVM counts are tallied constituency-by-constituency. Results are declared round by round.</div>
+          </div>
+          <div class="step-dot">05</div>
+          <div class="step-empty"></div>
+        </div>
+        <!-- Step 6 -->
+        <div class="timeline-step step-6">
+          <div class="step-empty"></div>
+          <div class="step-dot">06</div>
+          <div class="step-card" onclick="this.classList.toggle('expanded')">
+            <div class="step-icon">🏆</div>
+            <div class="step-phase">Phase 06</div>
+            <h3 class="step-title">Results Declaration</h3>
+            <p class="step-desc">The Election Commission officially announces winners for each constituency.</p>
+            <div class="step-details">The winning party or coalition must demonstrate a majority to form government.</div>
+          </div>
+        </div>
+        <!-- Step 7 -->
+        <div class="timeline-step step-7">
+          <div class="step-card" onclick="this.classList.toggle('expanded')">
+            <div class="step-icon">🏛️</div>
+            <div class="step-phase">Phase 07</div>
+            <h3 class="step-title">Government Formation</h3>
+            <p class="step-desc">The winning leader is invited to form government and takes the oath.</p>
+            <div class="step-details">The new Cabinet is sworn in, and the new government's agenda is set.</div>
+          </div>
+          <div class="step-dot">07</div>
+          <div class="step-empty"></div>
         </div>
       </div>
     </section>
+
+    <!-- CHARTS -->
+    <section id="charts-section">
+      <div class="section-header">
+        <span class="section-tag">Google Charts</span>
+        <h2 class="section-title">Election <em>Data</em> at a Glance</h2>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>📊 Voter Turnout Over Years</h3>
+          <div id="voter_chart" style="height:300px;"></div>
+        </div>
+        <div class="chart-card">
+          <h3>🗓️ Election Phase Timeline</h3>
+          <div id="phase_chart" style="height:300px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map-section">
+      <div class="section-header">
+        <span class="section-tag">Google Maps</span>
+        <h2 class="section-title">Find Your <em>Polling Booth</em></h2>
+      </div>
+      <div class="map-container">
+        <div class="map-search">
+          <input type="text" id="map-search-input" placeholder="Enter area, city or PIN code...">
+          <button id="map-search-btn">Find Booths</button>
+        </div>
+        <iframe id="gmap-frame" style="width:100%;height:400px;border:none;"></iframe>
+      </div>
+    </section>
+
+    <!-- VIDEOS -->
+    <section id="learning-section">
+      <div class="section-header">
+        <span class="section-tag">Learn & Understand</span>
+        <h2 class="section-title">Election <em>Learning Center</em></h2>
+      </div>
+      <div class="videos-grid">
+        <div class="video-card">
+          <a href="https://www.youtube.com/watch?v=WlEFWOS6OBo" target="_blank" rel="noopener noreferrer" class="thumbnail-container">
+            <img src="https://img.youtube.com/vi/WlEFWOS6OBo/hqdefault.jpg" alt="Video">
+          </a>
+          <div class="video-info">
+            <h3>Every Vote Counts</h3>
+            <p>Understanding why every vote matters in a democracy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz-section">
+      <div class="section-header">
+        <span class="section-tag">Test Your Knowledge</span>
+        <h2 class="section-title">Election <em>Quiz</em></h2>
+      </div>
+      <div class="quiz-box">
+        <div class="quiz-progress">
+          <div class="quiz-dot" id="qdot-0"></div>
+          <div class="quiz-dot" id="qdot-1"></div>
+          <div class="quiz-dot" id="qdot-2"></div>
+        </div>
+        <p class="quiz-question" id="quiz-q"></p>
+        <div class="quiz-options" id="quiz-opts"></div>
+        <div class="quiz-feedback" id="quiz-fb"></div>
+        <div class="quiz-nav">
+          <span class="quiz-score" id="quiz-score-display">Score: 0 / 0</span>
+          <button class="btn-primary" id="quiz-next-btn" style="display:none">Next</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOICE -->
+    <section id="voice-section">
+      <div class="section-header">
+        <span class="section-tag">Web Speech API</span>
+        <h2 class="section-title">Ask the <em>Assistant</em></h2>
+      </div>
+      <div class="voice-card">
+        <div class="voice-orb" id="voice-orb">
+          <span class="material-icons-round" id="voice-icon">mic</span>
+        </div>
+        <p class="voice-transcript" id="voice-transcript"></p>
+        <div class="voice-answer" id="voice-answer"></div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="footer-brand">ElectED</div>
+    <div class="footer-copy">© 2025 ElectED · Built with Google Services</div>
+  </footer>
+
+  <div id="toast"><span id="toast-msg"></span></div>
 
   <script type="module" src="/src/main.ts"></script>
 </body>
