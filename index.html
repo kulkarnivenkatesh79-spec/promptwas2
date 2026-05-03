@@ -1870,7 +1870,7 @@
     }
 
     /* ══════════════════════════════════════════
-       PERFORMANCE: Content visibility & reduced motion
+       PERFORMANCE: Reduced motion
     ══════════════════════════════════════════ */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1879,13 +1879,6 @@
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
       }
-      #bg-canvas { display: none; }
-    }
-
-    /* Lazy-render offscreen sections for performance */
-    .section {
-      content-visibility: auto;
-      contain-intrinsic-size: auto 600px;
     }
 
     /* GPU-accelerated animations */
