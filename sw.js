@@ -4,7 +4,7 @@
  * @version 1.0.0
  */
 
-const CACHE_NAME = 'elected-v1';
+const CACHE_NAME = 'elected-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -29,15 +29,19 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch: Cache-First for static, Network-First for API
+// Fetch: Network-first for HTML, JS. Cache-first for images/CSS
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
 
-  // Network-first for API calls
-  if (url.hostname.includes('googleapis.com')) {
+  // Network-first for HTML, JS, and APIs
+  if (
+    url.hostname.includes('googleapis.com') ||
+    event.request.headers.get('accept').includes('text/html') ||
+    url.pathname.endsWith('.js')
+  ) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -50,7 +54,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Cache-first for everything else
+  // Cache-first for everything else (images, fonts, etc.)
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
