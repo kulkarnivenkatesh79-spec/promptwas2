@@ -1,60 +1,92 @@
+/**
+ * Gemini AI service module.
+ * Uses only gemini-flash-latest. Supports demo mode when API key is absent.
+ */
+
 import { logger } from '../utils/logger';
 
-// @ts-ignore
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
+const GEMINI_MODEL = 'gemini-flash-latest';
+const GEMINI_API_VERSION = 'v1beta';
+const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com';
 
-interface GeminiModel {
-  v: string;
-  m: string;
+export interface GeminiRequestBody {
+  contents: { parts: { text: string }[] }[];
+  generationConfig?: { response_mime_type: string };
 }
 
-export async function callGemini(prompt: string, isJson: boolean = false): Promise<string> {
-  if (!API_KEY) {
-    logger.warn('Gemini API key missing. Running in demo mode.');
-    return isJson ? '[]' : 'This is a demo response. Please add an API key in env.js to see real AI results.';
+export interface GeminiResponse {
+  candidates?: { content: { parts: { text: string }[] } }[];
+  error?: { message: string };
+}
+
+export function buildApiUrl(apiKey: string): string {
+  return `${GEMINI_BASE_URL}/${GEMINI_API_VERSION}/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+}
+
+export function buildRequestBody(prompt: string, isJson: boolean): GeminiRequestBody {
+  const body: GeminiRequestBody = {
+    contents: [{ parts: [{ text: prompt }] }],
+  };
+  if (isJson) {
+    body.generationConfig = { response_mime_type: 'application/json' };
+  }
+  return body;
+}
+
+export function extractResponseText(data: GeminiResponse): string | null {
+  if (data.error) {
+    return null;
+  }
+  if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+    return data.candidates[0].content.parts[0].text;
+  }
+  return null;
+}
+
+export function getDemoResponse(isJson: boolean): string {
+  if (isJson) {
+    return '[]';
+  }
+  return 'Demo mode: AI features require an API key. Add your Gemini API key to env.js to enable live responses.';
+}
+
+export async function callGemini(
+  prompt: string,
+  isJson: boolean = false,
+  apiKey?: string,
+): Promise<string> {
+  const key = apiKey || '';
+
+  if (!key) {
+    logger.warn('No Gemini API key provided. Returning demo response.');
+    return getDemoResponse(isJson);
   }
 
-  const models: GeminiModel[] = [
-    { v: 'v1beta', m: 'gemini-3.1-flash-lite-preview' },
-    { v: 'v1beta', m: 'gemini-2.5-flash' },
-    { v: 'v1beta', m: 'gemini-flash-latest' },
-    { v: 'v1beta', m: 'gemini-pro' }
-  ];
+  const url = buildApiUrl(key);
+  const body = buildRequestBody(prompt, isJson);
 
-  let lastError = null;
-  for (const config of models) {
-    try {
-      const url = `https://generativelanguage.googleapis.com/${config.v}/models/${config.m}:generateContent?key=${API_KEY}`;
-      const body: any = {
-        contents: [{ parts: [{ text: prompt }] }]
-      };
-      
-      if (isJson) {
-        body.generationConfig = { response_mime_type: "application/json" };
-      }
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
+    const data: GeminiResponse = await response.json();
+    const text = extractResponseText(data);
 
-      const data = await response.json();
-      
-      if (data.error) {
-        logger.warn(`Model ${config.m} (${config.v}) failed: ${data.error.message}`);
-        lastError = data.error.message;
-        continue;
-      }
-
-      if (data.candidates && data.candidates[0].content) {
-        return data.candidates[0].content.parts[0].text;
-      }
-    } catch (e: any) {
-      logger.error(`Error calling Gemini model ${config.m}:`, e);
-      lastError = e.message;
+    if (text !== null) {
+      return text;
     }
-  }
 
-  throw new Error(`All Gemini models failed. Last error: ${lastError}`);
+    const errorMsg = data.error?.message || 'Unknown API error';
+    logger.error(`Gemini API error: ${errorMsg}`);
+    throw new Error(errorMsg);
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : 'Network error';
+    logger.error(`callGemini failed: ${message}`);
+    throw new Error(message);
+  }
 }
+
+export { GEMINI_MODEL, GEMINI_API_VERSION };
